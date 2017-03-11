@@ -36,5 +36,3 @@ def main():
                 file_reader_decoder(key_to_encode_decode, path)
         else:
             print("Ошибка!")
-
-

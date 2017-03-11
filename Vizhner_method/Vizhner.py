@@ -7,16 +7,21 @@ class Vizhner:
     word_plus_key_numbers = {}
 
     alphabet_latin_lower = 'abcdefghijklmnopqrstuvwxyz'
-    alphabet_cyrillic_lower = "абвгдеёжхийклмнопрстуфхцчшщъыьэюя"
+    alphabet_cyrillic_lower = "АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ".lower()
+    main_alph = ''
 
-    def __init__(self, key, word):
+    def __init__(self, key, word, lang):
         self.encode_key = key
         self.word_to_de_encode = word
+        if lang == 1:
+            self.main_alph = self.alphabet_latin_lower
+        elif lang == 2:
+            self.main_alph = self.alphabet_cyrillic_lower
 
     def make_numbered_alphabet(self):
         numbered_alphabet = {}
         count = 0
-        for char in self.alphabet_latin_lower:
+        for char in self.main_alph:
             numbered_alphabet[count] = char
             count += 1
         return numbered_alphabet
@@ -59,7 +64,7 @@ class Vizhner:
             sum_of_numbers.append(self.word_plus_key_numbers[x][0] + self.word_plus_key_numbers[x][1])
 
         for x in sum_of_numbers:
-            encoded_word += self.alphabet_latin_lower[int(x) % len(self.alphabet_latin_lower)]
+            encoded_word += self.main_alph[int(x) % len(self.main_alph)]
 
         print(sum_of_numbers)
         print(encoded_word)
@@ -72,10 +77,11 @@ class Vizhner:
         self.make_word_plus_key_codes()
 
         for x in self.word_plus_key_numbers:
-            numbers.append((self.word_plus_key_numbers[x][0] - self.word_plus_key_numbers[x][1] + 26) % 26)
+            numbers.append((self.word_plus_key_numbers[x][0] - self.word_plus_key_numbers[x][1] + len(self.main_alph)) %
+                           len(self.main_alph))
 
         for number in numbers:
-            decoded_word_latin += self.alphabet_latin_lower[int(number)]
+            decoded_word_latin += self.main_alph[int(number)]
 
         print(numbers)
         print(decoded_word_latin)
@@ -84,11 +90,14 @@ class Vizhner:
 if __name__ == "__main__":
     print("Хотите зашифровать(1) или расшифровать(2) слово? ")
     answer = int(input())
+    print("Языки английский(1) || русский(2)")
+    language = int(input())
     print("Введите слово: ")
     _word = str(input())
     print("Введите ключ: ")
     _key = str(input())
-    v = Vizhner(_key.lower(), _word.lower())
+
+    v = Vizhner(_key.lower(), _word.lower(), language)
     if answer == 1:
         v.do_encode()
     elif answer == 2:
