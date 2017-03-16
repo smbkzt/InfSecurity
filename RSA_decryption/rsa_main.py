@@ -57,7 +57,6 @@ class RSA:
 
     def decode(self, word_to_decode, dd, nn):
         t = word_to_decode.split(',')
-        print(t)
         for char in t:
             self.numbers_of_decoded.append(pow(int(char), dd) % nn)
 
@@ -65,6 +64,7 @@ class RSA:
             for chars in self.alphabet_latin_lower:
                 if (numbers - 1) == self.alphabet_latin_lower.index(chars):
                     self.decoded_str += chars
+        print(self.decoded_str)
 
     def encoding_file(self, path, path_data):
         t = []
