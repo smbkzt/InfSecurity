@@ -7,6 +7,7 @@ def file_reader_decoder(key, file_path, lang):
     file = open(file_path, 'r')
     for line in file:
         words_to_encode += line
+    file.close()
     vizhner = Vizhner(key, words_to_encode, lang)
     vizhner.do_decode()
 
@@ -18,6 +19,7 @@ def file_reader_encoder(key, file_path, lang):
     for line in file:
         words_to_encode += line
     vizhner = Vizhner(key, words_to_encode, lang)
+    file.close()
     vizhner.do_encode()
 
 

@@ -9,6 +9,7 @@ def file_reader_decoder(key, file_path):
     for line in file:
         count += 1
         print("Строка №" + str(count) + ": " + caesar.caesar_decode(key, line))
+    file.close()
 
 
 def file_reader_encoder(key, file_path):
@@ -18,6 +19,7 @@ def file_reader_encoder(key, file_path):
     for line in file:
         count += 1
         print("Строка №" + str(count) + ": " + caesar.caesar_encode(key, line))
+    file.close()
 
 
 def main():

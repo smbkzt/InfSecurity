@@ -32,6 +32,7 @@ class RSA:
         file.write(str(self.d))
         file.write("\n")
         file.write(str(self.n))
+        file.close()
 
     def encode(self, word_to_encode):
         # Ищет номера букв слова
@@ -47,6 +48,7 @@ class RSA:
         new_data = str(self.numbers_of_encoded)
         file = open('D:\InfSec\decoded_data.txt', 'w')
         file.write(str(self.numbers_of_encoded)[1:len(new_data) - 1])
+        file.close()
 
         # Перебирает эти номера чтобы найти соответствующие им буквы
         for encoded_number in self.numbers_of_encoded:
@@ -73,6 +75,7 @@ class RSA:
             if line.find('\n'):
                 t.append(line.replace('\n', ''))
         self.count(int(t[0]), int(t[1]))
+        file.close()
 
         file = open(path_data, 'r')
         str = ''
@@ -82,6 +85,7 @@ class RSA:
             else:
                 str += line
         self.encode(str)
+        file.close()
 
     def decode_file(self, path, path_data):
         t = []
@@ -97,7 +101,7 @@ class RSA:
                 str += line.replace('\n', ' ')
             else:
                 str += line
-
+        file.close()
         self.decode(str, int(t[0]), int(t[1]))
 
 
