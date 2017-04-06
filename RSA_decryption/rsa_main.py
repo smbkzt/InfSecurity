@@ -1,18 +1,27 @@
+'''
+    custom rsa realization
+'''
 class RSA:
+    '''
+        rsa main class of algorith
+    '''
     alphabet_latin_lower = ' abcdefghijklmnopqrstuvwxyz'
     length = len(alphabet_latin_lower)
     d = int
     n = int
     e = int
     k = int
-    numbers_of_original_chars = []
-    numbers_of_encoded = []
-    encoded_str = ""
-    decoded_str = ""
-
-    numbers_of_decoded = []
+    numbers_of_original_chars = list()
+    numbers_of_encoded = list()
+    numbers_of_decoded = list()
+    encoded_str = str
+    decoded_str = str
 
     def count(self, pp, qq):
+        '''
+            counts values using formula
+            writes counted values in file to generate closed key
+        '''
         self.k = (pp - 1) * (qq - 1)
         self.n = pp * qq
 
@@ -28,13 +37,17 @@ class RSA:
                 self.e = e
                 break
 
-        file = open('D:\InfSec\closed_key.txt', 'w')
+        file = open(r'D:\InfSec\closed_key.txt', 'w')
         file.write(str(self.d))
         file.write("\n")
         file.write(str(self.n))
         file.close()
 
     def encode(self, word_to_encode):
+        '''
+            This method encodes data
+            returns None
+        '''
         # Ищет номера букв слова
         for char in word_to_encode:
             for x in self.alphabet_latin_lower:
@@ -46,18 +59,24 @@ class RSA:
             self.numbers_of_encoded.append(pow(number, self.e) % self.n)
 
         new_data = str(self.numbers_of_encoded)
-        file = open('D:\InfSec\decoded_data.txt', 'w')
+        file = open(r'D:\InfSec\encoded_data.txt', 'w')
         file.write(str(self.numbers_of_encoded)[1:len(new_data) - 1])
         file.close()
 
         # Перебирает эти номера чтобы найти соответствующие им буквы
         for encoded_number in self.numbers_of_encoded:
             if encoded_number > self.length:
-                self.encoded_str += self.alphabet_latin_lower[(encoded_number + self.length) % self.length]
+                self.encoded_str += self.alphabet_latin_lower[
+                    (encoded_number + self.length) % self.length]
             else:
                 self.encoded_str += self.alphabet_latin_lower[encoded_number % self.length]
 
     def decode(self, word_to_decode, dd, nn):
+        '''
+            Decoding method using open keys
+
+            prints result
+        '''
         t = word_to_decode.split(',')
         for char in t:
             self.numbers_of_decoded.append(pow(int(char), dd) % nn)
@@ -69,6 +88,11 @@ class RSA:
         print(self.decoded_str)
 
     def encoding_file(self, path, path_data):
+        '''
+            Encodes data using encode method and writes it in the file
+
+            returns None
+        '''
         t = []
         file = open(path, 'r')
         for line in file:
@@ -78,16 +102,21 @@ class RSA:
         file.close()
 
         file = open(path_data, 'r')
-        str = ''
+        string = ''
         for line in file:
             if line.find('\n'):
-                str += line.replace('\n', ' ')
+                string += line.replace('\n', ' ')
             else:
-                str += line
-        self.encode(str)
+                string += line
+        self.encode(string)
         file.close()
 
     def decode_file(self, path, path_data):
+        '''
+            Encodes data using decode method
+
+            returns None
+        '''
         t = []
         file = open(path, 'r')
         for line in file:
@@ -95,14 +124,14 @@ class RSA:
                 t.append(line.replace('\n', ''))
 
         file = open(path_data, 'r')
-        str = ''
+        string = ''
         for line in file:
             if line.find('\n'):
-                str += line.replace('\n', ' ')
+                string += line.replace('\n', ' ')
             else:
-                str += line
+                string += line
         file.close()
-        self.decode(str, int(t[0]), int(t[1]))
+        self.decode(string, int(t[0]), int(t[1]))
 
 
 if __name__ == "__main__":
